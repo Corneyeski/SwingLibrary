@@ -39,7 +39,7 @@ public class LibraryBBDD {
         }
     }
 
-    public User obtenerUser(ResultSet ps) throws SQLException {
+    private User obtenerUser(ResultSet ps) throws SQLException {
         
         User user = new User();
 
@@ -67,7 +67,7 @@ public class LibraryBBDD {
         
     }
     
-    public Author obtenerAutor(ResultSet ps) throws SQLException {
+    private Author obtenerAutor(ResultSet ps) throws SQLException {
         
         Author autor = new Author();
         
@@ -81,7 +81,7 @@ public class LibraryBBDD {
         return autor;
     }
 
-    public Book obtenerLibro(ResultSet ps) throws SQLException {
+    private Book obtenerLibro(ResultSet ps) throws SQLException {
         
         Book book = new Book();
 
@@ -183,7 +183,7 @@ public class LibraryBBDD {
     public void eliminarAutor(Author author) throws SQLException {
 
         conectar();
-        String insert = "delete * from author where idauthor=" + author.getIdauthor();
+        String insert = "delete from author where idauthor=" + author.getIdauthor();
         PreparedStatement ps = conexion.prepareStatement(insert);
         ps.executeUpdate();
         desconectar();
@@ -219,7 +219,7 @@ public class LibraryBBDD {
     public void deleteUser(User user) throws SQLException {
 
         conectar();
-        String insert = "delete * from user where username=" + user.getName();
+        String insert = "delete from user where username='" + user.getName()+"'";
         PreparedStatement ps = conexion.prepareStatement(insert);
         ps.executeUpdate();
         desconectar();
@@ -283,7 +283,7 @@ public class LibraryBBDD {
         return list;
     }
 
-    public List<Book> librosAutor(String name) throws SQLException {
+    public List<Book> librosAutor(int name) throws SQLException {
 
         conectar();
         List<Book> list = new ArrayList<>();
@@ -317,12 +317,12 @@ public class LibraryBBDD {
         return list;
     }
 
-    public List<Book> librosAutorGenero(String name, String author) throws SQLException {
+    public List<Book> librosAutorGenero(String name, int author) throws SQLException {
 
         conectar();
         List<Book> list = new ArrayList<>();
 
-        String obtener = "select * from book where genre=" + name + " and author =" + author;
+        String obtener = "select * from book where genre='" + name + "' and author =" + author;
         Statement consulta = conexion.createStatement();
 
         ResultSet ps = consulta.executeQuery(obtener);

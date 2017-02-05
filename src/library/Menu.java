@@ -92,6 +92,11 @@ public class Menu extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(204, 255, 255));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton3.setText("CONSULTAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(204, 255, 255));
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -224,6 +229,11 @@ public class Menu extends javax.swing.JFrame {
         MenuBA menu = new MenuBA();
         menu.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Consulta consulta = new Consulta();
+        consulta.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

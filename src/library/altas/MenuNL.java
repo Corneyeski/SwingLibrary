@@ -69,9 +69,9 @@ public class MenuNL extends javax.swing.JFrame {
         title = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        autor = new javax.swing.JComboBox<String>();
+        autor = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        genero = new javax.swing.JComboBox<String>();
+        genero = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -93,7 +93,7 @@ public class MenuNL extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Author:");
 
-        autor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        autor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${autores}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, autor);
@@ -102,7 +102,7 @@ public class MenuNL extends javax.swing.JFrame {
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Genero:");
 
-        genero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Terror", "Fantasia", "Romantica", "Accion", " " }));
+        genero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Terror", "Fantasia", "Romantica", "Accion", " " }));
 
         jLabel5.setBackground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Paginas:");
@@ -173,7 +173,7 @@ public class MenuNL extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addComponent(error)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

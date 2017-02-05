@@ -5,17 +5,109 @@
  */
 package library;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import library.altas.MenuNL;
+import library.borrar.MenuBL;
+import library.model.Author;
+import library.model.Book;
+import library.persistance.LibraryBBDD;
+
 /**
  *
  * @author Alan
  */
 public class Consulta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Consulta
-     */
+    private List<Author> autores;
+    int numl = 0;
+    int maxl = 0;
+    private List<Book> libros;
+
+    public List<Author> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(List<Author> autores) {
+        this.autores = autores;
+    }
+
     public Consulta() {
+
+        LibraryBBDD libraryBBDD = new LibraryBBDD();
+        try {
+            autores = libraryBBDD.todosAutores();
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuNL.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
+        error.setVisible(false);
+        libros = listaLibrosAutor(((Author) autorc.getSelectedItem()).getIdauthor());
+        maxl = libros.size();
+        System.out.println(libros.get(numl));
+        titlet.setText(libros.get(numl).getTitle());
+        autort.setText(libros.get(numl).getAuthor().getName());
+        generot.setText(libros.get(numl).getGenre());
+        paginast.setValue(libros.get(numl).getNump());
+    }
+
+    public List<Book> listaLibrosAutor(int autor) {
+
+        List<Book> libros = new ArrayList<>();
+        LibraryBBDD library = new LibraryBBDD();
+
+        try {
+            libros = library.librosAutor(autor);
+        } catch (SQLException ex) {
+            Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return libros;
+    }
+
+    public List<Book> listaLibroGenero(String genero) {
+
+        List<Book> libros = new ArrayList<>();
+        LibraryBBDD library = new LibraryBBDD();
+
+        try {
+            libros = library.librosGenero(genero);
+        } catch (SQLException ex) {
+            Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return libros;
+    }
+
+    public List<Book> listaLibrosAutorGenero(int autor, String genero) {
+
+        List<Book> libros = new ArrayList<>();
+        LibraryBBDD library = new LibraryBBDD();
+
+        try {
+            libros = library.librosAutorGenero(genero, autor);
+        } catch (SQLException ex) {
+            Logger.getLogger(Consulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return libros;
+    }
+
+    public List<Book> listaLibros() {
+
+        List<Book> libros = new ArrayList<>();
+        LibraryBBDD l = new LibraryBBDD();
+        try {
+            libros = l.todosLibros();
+        } catch (SQLException ex) {
+            Logger.getLogger(MenuBL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return libros;
     }
 
     /**
@@ -26,22 +118,287 @@ public class Consulta extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
+
+        anterior = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        generoc = new javax.swing.JComboBox<>();
+        siguiente = new javax.swing.JButton();
+        generob = new javax.swing.JLabel();
+        autorc = new javax.swing.JComboBox<>();
+        paginast = new javax.swing.JSpinner();
+        titlet = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        autort = new javax.swing.JTextField();
+        generot = new javax.swing.JTextField();
+        error = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        anterior.setBackground(new java.awt.Color(204, 255, 255));
+        anterior.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        anterior.setText("ANTERIOR");
+        anterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anteriorActionPerformed(evt);
+            }
+        });
+
+        jButton12.setBackground(new java.awt.Color(204, 255, 255));
+        jButton12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton12.setText("ATRAS");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("Autor:");
+
+        jLabel14.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 204, 51));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("CONSULTAR LIBROS");
+        jLabel14.setToolTipText("");
+
+        generoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige genero", "Terror", "Fantasia", "Romantica", "Accion", " " }));
+        generoc.setToolTipText("");
+        generoc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                generocItemStateChanged(evt);
+            }
+        });
+
+        siguiente.setBackground(new java.awt.Color(204, 255, 255));
+        siguiente.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        siguiente.setText("SIGUIENTE");
+        siguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                siguienteActionPerformed(evt);
+            }
+        });
+
+        generob.setBackground(new java.awt.Color(0, 0, 0));
+        generob.setText("Genero:");
+
+        autorc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        autorc.setToolTipText("");
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${autores}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, autorc);
+        bindingGroup.addBinding(jComboBoxBinding);
+
+        autorc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                autorcItemStateChanged(evt);
+            }
+        });
+
+        paginast.setModel(new javax.swing.SpinnerNumberModel());
+
+        jLabel16.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel16.setText("Title:");
+
+        jLabel18.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel18.setText("Genero:");
+
+        jLabel19.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel19.setText("Paginas:");
+
+        jLabel17.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel17.setText("Autor:");
+
+        error.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        error.setForeground(new java.awt.Color(255, 0, 0));
+        error.setText("SIN RESULTADOS");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(titlet, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                            .addComponent(paginast, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(autort)
+                            .addComponent(generot)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(autorc, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(generob, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(19, 19, 19)
+                                .addComponent(generoc, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(87, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(anterior)
+                .addGap(34, 34, 34)
+                .addComponent(siguiente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton12)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(141, 141, 141)
+                .addComponent(error)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(autorc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(generob, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(titlet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(autort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(generot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(paginast, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addComponent(error, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton12)
+                    .addComponent(anterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(siguiente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void anteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anteriorActionPerformed
+        //TODO anterior libro
+        if (numl >= 0 && libros != null) {
+            if(numl > 0){
+                numl--;
+            }
+            titlet.setText(libros.get(numl).getTitle());
+            autort.setText(libros.get(numl).getAuthor().getName());
+            generot.setText(libros.get(numl).getGenre());
+            paginast.setValue(libros.get(numl).getNump());
+        }
+    }//GEN-LAST:event_anteriorActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void generocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_generocItemStateChanged
+        //TODO cambia genero
+        if (autorc.getSelectedIndex() >= 0) {
+            Author a = (Author) autorc.getSelectedItem();
+            if (((String) generoc.getSelectedItem()).equalsIgnoreCase("elige genero")) {
+                libros = listaLibrosAutor(a.getIdauthor());
+            } else {
+                libros = listaLibrosAutorGenero(a.getIdauthor(), (String) generoc.getSelectedItem());
+            }
+            numl = 0;
+            if (!libros.isEmpty()) {
+                error.setVisible(false);
+                titlet.setText(libros.get(numl).getTitle());
+                autort.setText(libros.get(numl).getAuthor().getName());
+                generot.setText(libros.get(numl).getGenre());
+                paginast.setValue(libros.get(numl).getNump());
+            } else {
+                error.setVisible(true);
+                titlet.setText("");
+                autort.setText("");
+                generot.setText("");
+                paginast.setValue(0);
+            }
+        }
+    }//GEN-LAST:event_generocItemStateChanged
+
+    private void siguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_siguienteActionPerformed
+        //TODO siguiente libro
+        if (numl <= libros.size()-1 && libros != null) {
+            if(numl < libros.size()-1){
+                numl++;
+            }
+            titlet.setText(libros.get(numl).getTitle());
+            autort.setText(libros.get(numl).getAuthor().getName());
+            generot.setText(libros.get(numl).getGenre());
+            paginast.setValue(libros.get(numl).getNump());
+        }else{
+        }
+    }//GEN-LAST:event_siguienteActionPerformed
+
+    private void autorcItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_autorcItemStateChanged
+        //TODO cambia autor
+        if (autorc.getSelectedIndex() >= 0) {
+            Author a = (Author) autorc.getSelectedItem();
+            if (((String) generoc.getSelectedItem()).equalsIgnoreCase("elige genero")) {
+                libros = listaLibrosAutor(a.getIdauthor());
+            } else {
+                libros = listaLibrosAutorGenero(a.getIdauthor(), (String) generoc.getSelectedItem());
+            }
+            numl = 0;
+
+            if (!libros.isEmpty()) {
+                error.setVisible(false);
+                titlet.setText(libros.get(numl).getTitle());
+                autort.setText(libros.get(numl).getAuthor().getName());
+                generot.setText(libros.get(numl).getGenre());
+                paginast.setValue(libros.get(numl).getNump());
+            } else {
+                error.setVisible(true);
+                titlet.setText("");
+                autort.setText("");
+                generot.setText("");
+                paginast.setValue(0);
+            }
+        }
+    }//GEN-LAST:event_autorcItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -79,5 +436,29 @@ public class Consulta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton anterior;
+    private javax.swing.JComboBox<String> autorc;
+    private javax.swing.JTextField autort;
+    private javax.swing.JLabel error;
+    private javax.swing.JLabel generob;
+    private javax.swing.JComboBox<String> generoc;
+    private javax.swing.JTextField generot;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JSpinner paginast;
+    private javax.swing.JButton siguiente;
+    private javax.swing.JTextField titlet;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
